@@ -63,8 +63,8 @@ Contributions are always welcome:
 
 ## 🧑‍🤝‍🧑 Authors & Acknowledgments
 
-* **Your Name** – primary development and project lead
-* (Optional) list of contributors or Lovable team if relevant
+* Akshaya Arigela – primary development 
+
 
 Special thanks to Lovable AI for rapid prototyping and seamless GitHub sync functionality ([Lovable Documentation][3]).
 
