@@ -1,62 +1,76 @@
-# Welcome to your Lovable project
 
-## Project info
 
-**URL**: https://lovable.dev/projects/7d1d7f3a-f77f-4695-888c-cbc31dc5db2f
+# Quiet Zone Time 🌙
 
-## How can I edit this code?
+> Automatically silence your device when you're within quiet zones (e.g. libraries, hospitals, meetings).
 
-There are several ways of editing your application.
+## 🚀 Live Demo
+Visit: https://quiet-zone-time.lovable.app
 
-**Use Lovable**
+## 🧩 What It Does
+Quiet Zone Time adjusts your device's audio settings based on your location:
+- Define geographic “quiet zones” using an interactive map
+- Automatically silence or vibrate on entry
+- Restore normal sound when exiting
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7d1d7f3a-f77f-4695-888c-cbc31dc5db2f) and start prompting.
+Built with Lovable AI and exporting clean TypeScript/React code via GitHub integration :contentReference[oaicite:1]{index=1}.
 
-Changes made via Lovable will be committed automatically to this repo.
+## ⚙️ Features
+- Map-based creation, resizing, and removal of zones
+- GPS-based detection of user movement
+- Toggleable behavior: silent, vibrate, or fully active
+- Optional integration with Google Places for suggestion of zones (e.g. hospitals, museums)
+- Event log of zone entries/exits and history
 
-**Use your preferred IDE**
+## 🛠 Installation & Development
+1. Clone the repository:
+   
+   git clone <YOUR_GITHUB_REPO_URL>
+   cd quiet-zone-time
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. Install dependencies:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+   ```bash
+   npm install
+   ```
+3. Start the development server:
 
-Follow these steps:
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and go to `http://localhost:3000` to interact locally.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🧪 Contributing
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Contributions are always welcome:
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Fork this repository
+2. Create a feature branch
+3. Make changes & commit (`git commit -m "feat: add ...feature..."`)
+4. Push to your branch and open a pull request
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+### Issues
 
-**Edit a file directly in GitHub**
+* Label “good first issue” for easy contribution opportunities (generating visibility and contributors) ([Reddit][2])
+* Use issues to report bugs or request enhancements
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🧭 Project Structure
 
-**Use GitHub Codespaces**
+* `/src` – React front-end code
+* `/public` – Static assets
+* `/README.md` – This file
+* `/LICENSE` – Licensed source (e.g., MIT or Apache-2.0)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🧑‍🤝‍🧑 Authors & Acknowledgments
 
-## What technologies are used for this project?
+* **Your Name** – primary development and project lead
+* (Optional) list of contributors or Lovable team if relevant
 
-This project is built with:
+Special thanks to Lovable AI for rapid prototyping and seamless GitHub sync functionality ([Lovable Documentation][3]).
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📄 License
+
+This project is licensed under the [Apache-2.0 License](LICENSE) (or replace with your chosen license).
+
+---
 
