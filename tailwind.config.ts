@@ -22,6 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -47,6 +48,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Focus-specific colors for productivity
+        focus: {
+          primary: "hsl(var(--focus-primary))",
+          secondary: "hsl(var(--focus-secondary))",
+          accent: "hsl(var(--focus-accent))",
+        },
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -57,6 +66,21 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-focus": "var(--gradient-focus)",
+        "gradient-calm": "var(--gradient-calm)",
+        "gradient-energy": "var(--gradient-energy)",
+      },
+      boxShadow: {
+        "focus": "var(--shadow-focus)",
+        "card": "var(--shadow-card)",
+        "glow": "var(--shadow-glow)",
+      },
+      transitionProperty: {
+        "smooth": "var(--transition-smooth)",
+        "focus": "var(--transition-focus)",
       },
       borderRadius: {
         lg: "var(--radius)",

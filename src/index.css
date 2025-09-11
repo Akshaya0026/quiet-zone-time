@@ -2,41 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Quiet Hours Scheduler Design System - Focus & Productivity Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core colors - Deep focus blues and purples */
+    --background: 240 10% 98%;
+    --foreground: 240 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 240 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 240 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Deep focus blue */
+    --primary: 233 47% 35%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 233 60% 55%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft productivity purple */
+    --secondary: 250 35% 92%;
+    --secondary-foreground: 240 15% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 15% 95%;
+    --muted-foreground: 240 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Energizing focus gradient */
+    --accent: 240 15% 94%;
+    --accent-foreground: 240 15% 25%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 15% 90%;
+    --input: 240 15% 96%;
+    --ring: 233 47% 35%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Focus-specific colors */
+    --focus-primary: 233 47% 35%;
+    --focus-secondary: 250 60% 60%;
+    --focus-accent: 270 60% 65%;
+    --success: 142 76% 45%;
+    --warning: 45 93% 55%;
+
+    /* Gradients for beautiful focus states */
+    --gradient-primary: linear-gradient(135deg, hsl(233 47% 35%), hsl(250 60% 60%));
+    --gradient-focus: linear-gradient(135deg, hsl(233 60% 55%), hsl(270 60% 65%));
+    --gradient-calm: linear-gradient(180deg, hsl(240 15% 98%), hsl(240 20% 95%));
+    --gradient-energy: linear-gradient(45deg, hsl(250 60% 60%), hsl(270 60% 65%));
+
+    /* Shadows for depth */
+    --shadow-focus: 0 10px 30px -10px hsl(233 47% 35% / 0.2);
+    --shadow-card: 0 4px 20px -4px hsl(240 15% 15% / 0.1);
+    --shadow-glow: 0 0 40px hsl(233 60% 55% / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-focus: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,41 +81,62 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode - Deep focus environment */
+    --background: 240 15% 8%;
+    --foreground: 240 10% 92%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 240 15% 10%;
+    --card-foreground: 240 10% 92%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 15% 10%;
+    --popover-foreground: 240 10% 92%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 233 60% 55%;
+    --primary-foreground: 240 15% 8%;
+    --primary-glow: 233 70% 65%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 15% 15%;
+    --secondary-foreground: 240 10% 85%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 240 15% 12%;
+    --muted-foreground: 240 10% 55%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 240 15% 14%;
+    --accent-foreground: 240 10% 85%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 240 10% 95%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 240 15% 18%;
+    --input: 240 15% 15%;
+    --ring: 233 60% 55%;
+
+    /* Dark mode focus colors */
+    --focus-primary: 233 60% 55%;
+    --focus-secondary: 250 60% 60%;
+    --focus-accent: 270 60% 65%;
+    --success: 142 70% 50%;
+    --warning: 45 85% 60%;
+
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(233 60% 55%), hsl(250 60% 60%));
+    --gradient-focus: linear-gradient(135deg, hsl(233 70% 65%), hsl(270 60% 65%));
+    --gradient-calm: linear-gradient(180deg, hsl(240 15% 8%), hsl(240 15% 12%));
+    --gradient-energy: linear-gradient(45deg, hsl(250 60% 60%), hsl(270 60% 65%));
+
+    /* Dark mode shadows */
+    --shadow-focus: 0 10px 30px -10px hsl(233 60% 55% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-glow: 0 0 40px hsl(233 70% 65% / 0.4);
+
+    --sidebar-background: 240 15% 8%;
+    --sidebar-foreground: 240 10% 85%;
+    --sidebar-primary: 233 60% 55%;
+    --sidebar-primary-foreground: 240 15% 8%;
+    --sidebar-accent: 240 15% 12%;
+    --sidebar-accent-foreground: 240 10% 85%;
+    --sidebar-border: 240 15% 18%;
+    --sidebar-ring: 233 60% 55%;
   }
 }
 
@@ -101,5 +147,86 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: hsl(var(--background));
+    transition: var(--transition-smooth);
+  }
+
+  /* Focus enhancement utilities */
+  .focus-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-focus {
+    background: var(--gradient-focus);
+  }
+
+  .gradient-calm {
+    background: var(--gradient-calm);
+  }
+
+  .text-gradient {
+    background: var(--gradient-focus);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Smooth animations for focus states */
+  .animate-focus-in {
+    animation: focusIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-pulse-subtle {
+    animation: pulseSubtle 2s ease-in-out infinite;
+  }
+}
+
+@layer components {
+  /* Focus session components */
+  .study-block {
+    @apply bg-card border border-border rounded-xl p-6 shadow-sm;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
+  }
+
+  .study-block:hover {
+    @apply border-primary/30;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .focus-button {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium;
+    background: var(--gradient-primary);
+    transition: var(--transition-focus);
+    box-shadow: var(--shadow-card);
+  }
+
+  .focus-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-focus);
+  }
+}
+
+@keyframes focusIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
   }
 }
