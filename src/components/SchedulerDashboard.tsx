@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StudyBlockCard from "./StudyBlockCard";
 import CreateBlockModal from "./CreateBlockModal";
+import { UserMenu } from "./UserMenu";
 
 // Mock data - will be replaced with Supabase data
 const mockBlocks = [
@@ -104,15 +105,18 @@ const SchedulerDashboard = ({ onBackToHero }: SchedulerDashboardProps) => {
             </div>
           </div>
           
-          <Button 
-            variant="hero" 
-            size="lg"
-            onClick={() => setIsCreateModalOpen(true)}
-            className="shadow-focus"
-          >
-            <Plus className="w-5 h-5 mr-2" />
-            Schedule Block
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="hero" 
+              size="lg"
+              onClick={() => setIsCreateModalOpen(true)}
+              className="shadow-focus"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Schedule Block
+            </Button>
+            <UserMenu />
+          </div>
         </div>
 
         {/* Stats Overview */}
