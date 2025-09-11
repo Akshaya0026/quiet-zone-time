@@ -70,7 +70,7 @@ Special thanks to Lovable AI for rapid prototyping and seamless GitHub sync func
 
 ## 📄 License
 
-This project is licensed under the [Apache-2.0 License](LICENSE) (or replace with your chosen license).
+This project is licensed under the [Apache-2.0 License](LICENSE) 
 
 ---
 
