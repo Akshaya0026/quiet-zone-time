@@ -1,44 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Calendar, Clock, Target, Filter, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StudyBlockCard from "./StudyBlockCard";
 import CreateBlockModal from "./CreateBlockModal";
 import { UserMenu } from "./UserMenu";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
-// Mock data - will be replaced with Supabase data
-const mockBlocks = [
-  {
-    id: "1",
-    title: "Deep Learning Study Session",
-    startTime: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
-    endTime: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours from now
-    description: "Focus on neural networks and backpropagation algorithms"
-  },
-  {
-    id: "2", 
-    title: "Mathematics Review",
-    startTime: new Date(Date.now() + 24 * 60 * 60 * 1000), // Tomorrow
-    endTime: new Date(Date.now() + 25.5 * 60 * 60 * 1000),
-    description: "Calculus and linear algebra concepts"
-  },
-  {
-    id: "3",
-    title: "Reading Session",
-    startTime: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago (completed)
-    endTime: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
-    description: "Research papers on machine learning"
-  }
-];
+interface StudyBlock {
+  id: string;
+  title: string;
+  startTime: Date;
+  endTime: Date;
+  description?: string;
+}
 
 interface SchedulerDashboardProps {
   onBackToHero?: () => void;
 }
 
 const SchedulerDashboard = ({ onBackToHero }: SchedulerDashboardProps) => {
-  const [blocks, setBlocks] = useState(mockBlocks);
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [blocks, setBlocks] = useState<StudyBlock[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [filterType, setFilterType] = useState<'all' | 'upcoming' | 'active' | 'completed'>('all');
+  const [loading, setLoading] = useState(true);
 
   const activeBlocks = blocks.filter(block => {
     const now = new Date();
@@ -62,22 +51,120 @@ const SchedulerDashboard = ({ onBackToHero }: SchedulerDashboardProps) => {
     }
   });
 
-  const handleCreateBlock = (newBlock: Omit<typeof mockBlocks[0], 'id'>) => {
-    const block = {
-      ...newBlock,
-      id: Date.now().toString(),
-    };
-    setBlocks([...blocks, block]);
+  // Load study blocks from Supabase
+  useEffect(() => {
+    if (user) {
+      loadStudyBlocks();
+    }
+  }, [user]);
+
+  const loadStudyBlocks = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('study_blocks')
+        .select('*')
+        .order('start_time', { ascending: true });
+
+      if (error) throw error;
+
+      const formattedBlocks: StudyBlock[] = data.map(block => ({
+        id: block.id,
+        title: block.title,
+        startTime: new Date(block.start_time),
+        endTime: new Date(block.end_time),
+        description: block.description
+      }));
+
+      setBlocks(formattedBlocks);
+    } catch (error) {
+      console.error('Error loading study blocks:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load your study blocks",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleEditBlock = (block: typeof mockBlocks[0]) => {
+  const handleCreateBlock = async (newBlock: Omit<StudyBlock, 'id'>) => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('study_blocks')
+        .insert({
+          user_id: user.id,
+          title: newBlock.title,
+          start_time: newBlock.startTime.toISOString(),
+          end_time: newBlock.endTime.toISOString(),
+          description: newBlock.description
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      const formattedBlock: StudyBlock = {
+        id: data.id,
+        title: data.title,
+        startTime: new Date(data.start_time),
+        endTime: new Date(data.end_time),
+        description: data.description
+      };
+
+      setBlocks([...blocks, formattedBlock]);
+      toast({
+        title: "Success!",
+        description: "Study block created successfully. You'll receive an email reminder 10 minutes before it starts."
+      });
+    } catch (error) {
+      console.error('Error creating study block:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create study block",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleEditBlock = (block: StudyBlock) => {
     // TODO: Implement edit functionality
     console.log('Edit block:', block);
   };
 
-  const handleDeleteBlock = (blockId: string) => {
-    setBlocks(blocks.filter(b => b.id !== blockId));
+  const handleDeleteBlock = async (blockId: string) => {
+    try {
+      const { error } = await supabase
+        .from('study_blocks')
+        .delete()
+        .eq('id', blockId);
+
+      if (error) throw error;
+
+      setBlocks(blocks.filter(b => b.id !== blockId));
+      toast({
+        title: "Deleted",
+        description: "Study block deleted successfully"
+      });
+    } catch (error) {
+      console.error('Error deleting study block:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete study block",
+        variant: "destructive"
+      });
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-calm">

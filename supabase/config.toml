@@ -1,1 +1,4 @@
 project_id = "vhusihpuoxzdkrvutosm"
+
+[functions.send-study-reminders]
+verify_jwt = false
