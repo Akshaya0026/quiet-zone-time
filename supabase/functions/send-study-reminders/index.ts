@@ -41,20 +41,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Checking for study blocks starting between ${now.toISOString()} and ${tenMinutesFromNow.toISOString()}`);
 
-    // Find study blocks that need reminders
-    const { data: blocksNeedingReminders, error: queryError } = await supabase
+    // Find study blocks that need reminders - first get blocks, then get profile info separately
+    const { data: blocks, error: queryError } = await supabase
       .from('study_blocks')
-      .select(`
-        id,
-        user_id,
-        title,
-        description,
-        start_time,
-        end_time,
-        remind_before_minutes,
-        reminder_sent_at,
-        profiles!inner(email, full_name)
-      `)
+      .select('*')
       .is('reminder_sent_at', null)
       .gte('start_time', now.toISOString())
       .lte('start_time', tenMinutesFromNow.toISOString());
@@ -63,6 +53,40 @@ const handler = async (req: Request): Promise<Response> => {
       console.error('Error querying study blocks:', queryError);
       throw queryError;
     }
+
+    if (!blocks || blocks.length === 0) {
+      console.log('No blocks found needing reminders');
+      return new Response(
+        JSON.stringify({ message: "No reminders to send", count: 0 }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Get profile information for each user
+    const userIds = [...new Set(blocks.map(block => block.user_id))];
+    const { data: profiles, error: profileError } = await supabase
+      .from('profiles')
+      .select('user_id, email, full_name')
+      .in('user_id', userIds);
+
+    if (profileError) {
+      console.error('Error querying profiles:', profileError);
+      throw profileError;
+    }
+
+    // Create a map for quick profile lookup
+    const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+    // Combine blocks with their profile data
+    const blocksNeedingReminders = blocks
+      .map(block => {
+        const profile = profileMap.get(block.user_id);
+        return profile ? { ...block, profile } : null;
+      })
+      .filter(Boolean);
 
     console.log(`Found ${blocksNeedingReminders?.length || 0} blocks needing reminders`);
 
@@ -81,7 +105,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     for (const block of blocksNeedingReminders) {
       try {
-        const profile = block.profiles;
+        const profile = block.profile;
         const startTime = new Date(block.start_time);
         const endTime = new Date(block.end_time);
         
